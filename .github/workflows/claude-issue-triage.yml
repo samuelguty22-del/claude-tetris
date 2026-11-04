@@ -54,6 +54,10 @@ jobs:
                - **Archivos y funciones afectados**.
                - **Enfoque de solución sugerido** (pasos concretos para implementarlo).
                - **Información faltante** (si aplica).
+               El comentario debe estar escrito en formato Markdown válido que Jhon pueda
+               entender: encabezados (`##`) para cada sección, listas con viñetas o numeradas,
+               bloques de código con lenguaje (```js) para fragmentos, `código en línea` para
+               nombres de archivos y funciones, y un lenguaje claro y directo, sin jerga innecesaria.
             4. No modifiques archivos del repositorio ni abras PRs; solo labels y el comentario.
           claude_args: >-
             --allowedTools "Bash(gh issue view:*),Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(gh label list:*),Bash(gh label create:*)"
