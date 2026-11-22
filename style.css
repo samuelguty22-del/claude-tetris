@@ -216,3 +216,29 @@ kbd {
 #theme-toggle:hover {
   border-color: var(--accent);
 }
+
+/* Skins */
+#skin-select {
+  align-self: flex-start;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#skin-select:hover {
+  border-color: var(--accent);
+}
+
+:root[data-skin="neon"] {
+  --grid: #1c1c30;
+}
+
+[data-skin="neon"] #board,
+[data-skin="neon"] #next-canvas {
+  background: #000;
+}
