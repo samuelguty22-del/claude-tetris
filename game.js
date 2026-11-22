@@ -41,6 +41,9 @@ const overlayScore = document.getElementById('overlay-score');
 const restartBtn = document.getElementById('restart-btn');
 const themeToggle = document.getElementById('theme-toggle');
 
+let startLevel = 1; // ajuste para la próxima partida
+let baseLevel = 1; // nivel inicial de la partida en curso
+const intervalForLevel = lv => Math.max(100, 1000 - (lv - 1) * 90);
 let board, current, next, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
 
 function createBoard() {
@@ -107,8 +110,8 @@ function clearLines() {
   if (cleared) {
     lines += cleared;
     score += (LINE_SCORES[cleared] || 0) * level;
-    level = Math.floor(lines / 10) + 1;
-    dropInterval = Math.max(100, 1000 - (level - 1) * 90);
+    level = baseLevel + Math.floor(lines / 10);
+    dropInterval = intervalForLevel(level);
     updateHUD();
   }
 }
@@ -217,6 +220,7 @@ function drawNext() {
 
 function endGame() {
   gameOver = true;
+  hidePauseMenu();
   cancelAnimationFrame(animId);
   overlayTitle.textContent = 'GAME OVER';
   overlayScore.textContent = `Puntuación: ${score.toLocaleString()}`;
@@ -227,6 +231,8 @@ function togglePause() {
   if (gameOver) return;
   paused = !paused;
   if (!paused) {
+    hidePauseMenu();
+    overlay.classList.add('hidden');
     lastTime = performance.now();
     loop(lastTime);
   } else {
@@ -234,6 +240,7 @@ function togglePause() {
     overlayTitle.textContent = 'PAUSA';
     overlayScore.textContent = '';
     overlay.classList.remove('hidden');
+    showPauseMenu();
   }
 }
 
@@ -257,22 +264,29 @@ function init() {
   board = createBoard();
   score = 0;
   lines = 0;
-  level = 1;
+  baseLevel = startLevel;
+  level = baseLevel;
   paused = false;
   gameOver = false;
-  dropInterval = 1000;
+  dropInterval = intervalForLevel(level);
   dropAccum = 0;
   lastTime = performance.now();
   next = randomPiece();
   spawn();
   updateHUD();
   overlay.classList.add('hidden');
+  hidePauseMenu();
   cancelAnimationFrame(animId);
   animId = requestAnimationFrame(loop);
 }
 
 document.addEventListener('keydown', e => {
-  if (e.code === 'KeyP') { togglePause(); return; }
+  if (e.code === 'KeyP' || e.code === 'Escape') {
+    if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
+    // Escape dentro del selector solo cierra su desplegable
+    if (e.target === pmLevel) return; // P/Esc no actúan sobre el selector
+    e.preventDefault(); togglePause(); return;
+  }
   if (paused || gameOver) return;
   switch (e.code) {
     case 'ArrowLeft':
@@ -306,6 +320,39 @@ themeToggle.addEventListener('click', () => {
   themeToggle.setAttribute('aria-pressed', String(light));
   themeToggle.blur(); // evita que Space (caída) active el botón
   if (paused || gameOver) draw();
+});
+
+// ---- Menú de pausa ----
+const pauseMenu = document.getElementById('pause-menu');
+const pmResume = document.getElementById('pm-resume');
+const pmRestart = document.getElementById('pm-restart');
+const pmControlsBtn = document.getElementById('pm-controls-btn');
+const pmControls = document.getElementById('pm-controls');
+const pmLevel = document.getElementById('pm-level');
+
+function showPauseMenu() {
+  overlay.classList.add('is-pause');
+  pmControls.classList.add('hidden');
+  pmControlsBtn.setAttribute('aria-expanded', 'false');
+  pmLevel.value = String(startLevel);
+  pmResume.focus();
+}
+
+function hidePauseMenu() {
+  overlay.classList.remove('is-pause');
+  // evita que Space/Enter reactiven un botón del menú al volver al juego
+  if (pauseMenu.contains(document.activeElement)) document.activeElement.blur();
+}
+
+pmResume.addEventListener('click', () => { if (paused) togglePause(); pmResume.blur(); });
+pmRestart.addEventListener('click', () => { init(); pmRestart.blur(); });
+pmControlsBtn.addEventListener('click', () => {
+  const open = pmControls.classList.toggle('hidden') === false;
+  pmControlsBtn.setAttribute('aria-expanded', String(open));
+  pmControlsBtn.blur();
+});
+pmLevel.addEventListener('change', () => {
+  startLevel = Math.min(10, Math.max(1, parseInt(pmLevel.value, 10) || 1));
 });
 
 // ---- Skins ----

@@ -61,6 +61,27 @@
         <div class="overlay-box">
           <p id="overlay-title">GAME OVER</p>
           <p id="overlay-score"></p>
+          <div id="pause-menu" aria-label="Menú de pausa">
+            <button type="button" id="pm-resume">Reanudar</button>
+            <button type="button" id="pm-restart">Reiniciar</button>
+            <button type="button" id="pm-controls-btn" aria-expanded="false">Ver controles</button>
+            <ul id="pm-controls" class="hidden">
+              <li><kbd>←</kbd><kbd>→</kbd> mover</li>
+              <li><kbd>↑</kbd> / <kbd>X</kbd> rotar</li>
+              <li><kbd>↓</kbd> bajar</li>
+              <li><kbd>Space</kbd> caída</li>
+              <li><kbd>P</kbd> / <kbd>Esc</kbd> pausa</li>
+            </ul>
+            <label class="pm-level">Nivel inicial
+              <select id="pm-level">
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </label>
+            <small id="pm-level-note">Se aplica al pulsar Reiniciar.</small>
+          </div>
           <button id="restart-btn">Reiniciar</button>
         </div>
       </div>
