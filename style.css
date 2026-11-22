@@ -239,3 +239,29 @@ kbd {
 .pm-level { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: var(--text); }
 .pm-level select { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; }
 #pm-level-note { font-size: 11px; color: var(--muted); }
+
+/* Skins */
+#skin-select {
+  align-self: flex-start;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#skin-select:hover {
+  border-color: var(--accent);
+}
+
+:root[data-skin="neon"] {
+  --grid: #1c1c30;
+}
+
+[data-skin="neon"] #board,
+[data-skin="neon"] #next-canvas {
+  background: #000;
+}
