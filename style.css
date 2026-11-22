@@ -216,3 +216,82 @@ kbd {
 #theme-toggle:hover {
   border-color: var(--accent);
 }
+
+/* Records */
+.records-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.records-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.records-list li.records-hl {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+
+.records-stat {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.records-reset,
+.records-form button {
+  align-self: flex-start;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.records-reset:hover,
+.records-form button:hover {
+  border-color: var(--accent);
+}
+
+#records-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: stretch;
+  text-align: left;
+  min-width: 190px;
+}
+
+#records-box[hidden] {
+  display: none;
+}
+
+.records-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--accent);
+}
+
+.records-form input {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 13px;
+  width: 100%;
+  user-select: text;
+}
